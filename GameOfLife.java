@@ -6,18 +6,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class GameOfLife extends JFrame {
-
+    long generation = 0;
 
     private int delay = 500;
     private final ImageIcon playImg = new ImageIcon("C:\\Users\\ak\\IdeaProjects\\Game of Life (Java)\\Game of Life (Java)\\task\\src\\life\\assets\\img\\play.png");
     private final ImageIcon pauseImg = new ImageIcon("C:\\Users\\ak\\IdeaProjects\\Game of Life (Java)\\Game of Life (Java)\\task\\src\\life\\assets\\img\\pause.png");
     private boolean isPlay = true;
 
-
     public GameOfLife() {
         super("Game of Life");
-
-        long generation = 0;
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(636, 690);
@@ -41,7 +38,6 @@ public class GameOfLife extends JFrame {
 
         JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 10, 500, 200);
         speedSlider.setInverted(true);
-
 
         JToggleButton playToggleButton = new JToggleButton();
         playToggleButton.setName("PlayToggleButton");
@@ -79,7 +75,7 @@ public class GameOfLife extends JFrame {
 
         CellsPanel cellsPanel = new CellsPanel();
         speedSlider.addChangeListener(this::setDelay);
-        resetButton.addActionListener(e -> cellsPanel.reset());
+        resetButton.addActionListener(e -> handleReset(cellsPanel));
 
         container.add(cellsPanel, BorderLayout.CENTER);
         setVisible(true);
@@ -98,9 +94,12 @@ public class GameOfLife extends JFrame {
             cellsPanel.evolve();
             repaint();
         }
-
     }
 
+    private void handleReset(CellsPanel cellsPanel) {
+        cellsPanel.reset();
+        generation = 0;
+    }
 
     private void handleToggle(ActionEvent e) {
         JToggleButton toggleButton = (JToggleButton) e.getSource();
